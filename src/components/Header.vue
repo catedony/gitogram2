@@ -5,7 +5,7 @@
         <Logo />
       </slot>
     </div>
-    <div class="content">
+    <div class="content" v-if="$slots.content">
       <slot name="content"></slot>
     </div>
   </header>
@@ -27,5 +27,8 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.content {
+  margin-top: 50px;
 }
 </style>

@@ -33,7 +33,6 @@ export default {
 
 <style lang="scss" scoped>
 .top {
-  margin-bottom: 50px;
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -43,6 +42,8 @@ export default {
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  padding-bottom: 10px;
+  overflow: auto;
 }
 .avatar {
   border: 2px solid hsla(313, 54%, 42%, 1);
@@ -50,6 +51,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-shrink: 0;
 }
 .avatar:not(:last-child) {
   margin-right: 20px;
