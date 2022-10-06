@@ -19,6 +19,10 @@ export default {
 <style lang="scss" scoped>
 .avatar {
   border-radius: 50%;
+  overflow: hidden;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
 }
 img {
   max-width: 100%;

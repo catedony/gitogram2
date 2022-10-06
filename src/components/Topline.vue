@@ -19,6 +19,7 @@ export default {
 ul {
   display: flex;
   place-items: center;
+  list-style: none;
 }
 .avatar{
   width: 32px;
