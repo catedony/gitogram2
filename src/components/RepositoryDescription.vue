@@ -1,15 +1,15 @@
 <template>
   <div class="description">
-    <h2 class="description__title">{{rep.title}}</h2>
+    <h2 class="description__title">{{rep.name}}</h2>
     <p>{{rep.description}}</p>
     <div class="buttons">
       <div class="buttons__stars buttons__section">
         <button><Icon name="star" class="buttons__icon" /><span>Star</span></button>
-        <div class="buttons__count">{{rep.stars}}</div>
+        <div class="buttons__count">{{rep.starsCount}}</div>
       </div>
       <div class="buttons__fork buttons__section">
         <button><span class="buttons__icon"><Icon name="fork" /></span><span>Fork</span></button>
-        <div class="buttons__count">{{rep.fork}}</div>
+        <div class="buttons__count">{{rep.forksCount}}</div>
       </div>
     </div>
   </div>

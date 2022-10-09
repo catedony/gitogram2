@@ -19,13 +19,32 @@ import Logo from '@/components/Logo.vue'
 import Topline from '@/components/Topline.vue'
 import Avatar from '@/components/Avatar.vue'
 import RepositoryList from '@/components/RepositoryList.vue'
-import reps from '@/repositories.json'
+// import reps from '@/repositories.json'
+import { getRepositories } from '@/api/rest/repositories.js'
 export default {
   name: 'Feeds',
   components: { Header, Logo, Avatar, Topline, RepositoryList },
   data () {
     return {
-      reps: reps
+      reps: {}
+    }
+  },
+  async created () {
+    try {
+      const { data: { items } } = await getRepositories()
+      // console.log(res)
+      this.reps = items.map(({ name, description, ...item }) => {
+        return {
+          name,
+          author: item.owner.login,
+          avatarUrl: item.owner.avatar_url,
+          description,
+          forksCount: item.forks_count,
+          starsCount: item.stargazers_count
+        }
+      })
+    } catch (error) {
+      console.error(error)
     }
   }
 }
