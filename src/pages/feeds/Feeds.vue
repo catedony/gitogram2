@@ -10,7 +10,9 @@
       <div class="avatars"><Avatar class="avatar" v-for="n in 10" :key="n"/></div>
     </template>
   </Header>
-  <RepositoryList :reps="reps" class="list" />
+    <div v-if="isLoading">Загрузка...</div>
+    <div v-else-if="error">{{ error }}</div>
+  <RepositoryList v-if="data" :reps="reps" class="list" />
 </template>
 
 <script>
@@ -19,33 +21,27 @@ import Logo from '@/components/Logo.vue'
 import Topline from '@/components/Topline.vue'
 import Avatar from '@/components/Avatar.vue'
 import RepositoryList from '@/components/RepositoryList.vue'
-// import reps from '@/repositories.json'
-import { getRepositories } from '@/api/rest/repositories.js'
+import { createNamespacedHelpers } from 'vuex'
+import repositories from '@/store/modules/repositories'
+const { mapState, mapActions } = createNamespacedHelpers('repositories')
 export default {
   name: 'Feeds',
   components: { Header, Logo, Avatar, Topline, RepositoryList },
-  data () {
-    return {
-      reps: {}
+  computed: {
+    ...mapState(['data', 'isLoading', 'error']),
+    reps () {
+      return this.data
     }
   },
+  beforeCreate () {
+    this.$store.registerModule('repositories', repositories)
+  },
   async created () {
-    try {
-      const { data: { items } } = await getRepositories()
-      // console.log(res)
-      this.reps = items.map(({ name, description, ...item }) => {
-        return {
-          name,
-          author: item.owner.login,
-          avatarUrl: item.owner.avatar_url,
-          description,
-          forksCount: item.forks_count,
-          starsCount: item.stargazers_count
-        }
-      })
-    } catch (error) {
-      console.error(error)
-    }
+    await this.fetchRepositories()
+    // this.$store.unregisterModule('repositories')
+  },
+  methods: {
+    ...mapActions(['fetchRepositories'])
   }
 }
 </script>
