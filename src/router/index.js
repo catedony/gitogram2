@@ -3,5 +3,6 @@ import routes from './routes'
 
 export default createRouter({
   history: createWebHashHistory(),
+  base: '/dist/',
   routes
 })
