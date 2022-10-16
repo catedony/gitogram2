@@ -1,18 +1,27 @@
 <template>
-  <div class="slider">
+  <div class="slide" :class="{active}">
     <div class="header">
-      <Progress :seconds="20"/>
-      <AvatarWithTitle :src="avatar" :title="title" class="avatar" />
+      <Progress :seconds="20" :active="active" @finish="$emit('progressFinish')"/>
+      <AvatarWithTitle :src="data.userAvatar" :title="data.username" class="avatar" />
     </div>
     <div class="content">
-      <div class="img" v-if="pic">
-        <img :src="pic" :alt="title">
-      </div>
-      <p>{{text}}</p>
+      <Spinner class="loader" v-if="loading" />
+      <template v-else>
+        <p v-if="data.content?.length" v-html="data.content"></p>
+        <Placeholder v-else :paragraphs="2" />
+      </template>
     </div>
     <div class="footer">
       <ChangeOnHoverButton />
     </div>
+    <template v-if="active">
+      <button v-if="btnsShown.includes('prev')" @click="$emit('prevSlide')" class="btn btn-prev">
+        <Icon class="icon" name="arrowLeft"/>
+      </button>
+      <button v-if="btnsShown.includes('next')" @click="$emit('nextSlide')" class="btn btn-next">
+        <Icon  class="icon" name="arrowRight"/>
+      </button>
+    </template>
   </div>
 </template>
 
@@ -20,36 +29,44 @@
 import ChangeOnHoverButton from './ChangeOnHoverButton.vue'
 import AvatarWithTitle from './AvatarWithTitle.vue'
 import Progress from './Progress.vue'
+import Placeholder from './Placeholder.vue'
+import Spinner from './Spinner.vue'
+import Icon from './icons/Icon.vue'
 export default {
   name: 'Slide',
-  components: { ChangeOnHoverButton, AvatarWithTitle, Progress },
+  components: { ChangeOnHoverButton, AvatarWithTitle, Progress, Placeholder, Spinner, Icon },
+  emits: ['progressFinish', 'nextSlide', 'prevSlide'],
   props: {
-    title: {
-      type: String,
+    data: {
+      type: Object,
       required: true
     },
-    avatar: {
-      type: String,
-      required: true
+    active: {
+      type: Boolean,
+      default: false
     },
-    pic: {
-      type: String,
-      default: ''
+    loading: {
+      type: Boolean,
+      default: false
     },
-    text: {
-      type: String,
-      required: true
+    btnsShown: {
+      type: Array,
+      default: () => ['next', 'prev'],
+      validator (value) {
+        return value.every(item => item === 'next' || item === 'prev')
+      }
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.slider {
-  max-width: 375px;
+.slide {
+  width: 375px;
   border-radius: 8px;
-  background: rgba(0, 0, 0, 0.0001);
+  background: #FFFFFF;
   border: 1px solid #CACACA;
+  position: relative;
 
   .header {
     border-bottom: 2px solid #CACACA;
@@ -65,6 +82,8 @@ export default {
   }
   .content {
     padding: 20px;
+    height: 400px;
+    overflow: auto;
     p {
       margin: 0;
     }
@@ -75,6 +94,41 @@ export default {
     img {
        max-width: 100%;
     }
+  }
+  .btn {
+    position: absolute;
+    width: 36.67px;
+    height: 36.67px;
+    border-radius: 50%;
+    background: #FFFFFF;
+    border: 2px solid #000000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &:hover .icon {
+      color: #31AE54;
+    }
+  }
+  .btn-prev {
+    left: calc(0% - 18.335px - 36.67px);
+    top: calc(53% - 36.67px);
+  }
+  .btn-next {
+    left: calc(100% - 18.335px + 30px);
+    top: calc(50% - 36.67px/2 + 0px);
+  }
+  .icon {
+    width: 18px;
+    height: 18px;
+    color: #404040;
+  }
+  &.active {
+    transform: scale(1.2);
+    margin-right: 100px;
+    margin-left: 100px;
+  }
+  .loader {
+    margin: auto;
   }
 }
 </style>

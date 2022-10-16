@@ -1,7 +1,7 @@
 <template>
 <div class="repository">
   <div class="user">
-    <Avatar class="user__avatar" />
+    <Avatar class="user__avatar" :src="rep.avatarUrl" />
     <span class="user__name">{{rep.author}}</span>
   </div>
   <slot></slot>

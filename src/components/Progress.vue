@@ -11,6 +11,10 @@ export default {
     seconds: {
       type: Number,
       required: true
+    },
+    active: {
+      type: Boolean,
+      default: true
     }
   },
   emits: ['finish'],
@@ -20,16 +24,31 @@ export default {
     }
   },
   mounted () {
-    setTimeout(() => {
-      this.style = {
-        width: '100%',
-        transition: 'all ' + this.seconds + 's'
-      }
-    }, 0)
+    if (this.active) {
+      setTimeout(() => {
+        this.style = {
+          width: '100%',
+          transition: 'all ' + this.seconds + 's'
+        }
+      }, 0)
+    }
+
     this.$refs.filler.addEventListener('transitionend', this.emitOnFinish)
   },
   beforeUnmount () {
     this.$refs.filler.removeEventListener('transitionend', this.emitOnFinish)
+  },
+  watch: {
+    active () {
+      if (this.active) {
+        setTimeout(() => {
+          this.style = {
+            width: '100%',
+            transition: 'all ' + this.seconds + 's'
+          }
+        }, 0)
+      }
+    }
   },
   methods: {
     emitOnFinish () {

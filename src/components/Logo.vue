@@ -1,3 +1,5 @@
 <template>
-  <img alt="Gitogram" src="Gitogram.svg">
+  <router-link to="/">
+    <img alt="Gitogram" src="Gitogram.svg">
+  </router-link>
 </template>

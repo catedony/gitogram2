@@ -27,6 +27,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
 }
 .content {
   margin-top: 50px;

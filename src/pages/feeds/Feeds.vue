@@ -7,7 +7,11 @@
       </div>
     </template>
     <template #content>
-      <div class="avatars"><Avatar class="avatar" v-for="n in 10" :key="n"/></div>
+      <div class="avatars">
+        <router-link  class="avatar-link" :to="{name: 'stories', params: { initialSlide: item.id }}" v-for="item in data" :key="item.id">
+          <Avatar class="avatar" :src="item.avatarUrl" />
+        </router-link>
+      </div>
     </template>
   </Header>
     <div v-if="isLoading">Загрузка...</div>
@@ -39,6 +43,7 @@ export default {
   async created () {
     await this.fetchRepositories()
     // this.$store.unregisterModule('repositories')
+    console.log(this.data)
   },
   methods: {
     ...mapActions(['fetchRepositories'])
@@ -60,14 +65,18 @@ export default {
   padding-bottom: 10px;
   overflow: auto;
 }
-.avatar {
+.avatar-link {
   border: 2px solid hsla(313, 54%, 42%, 1);
+  border-radius: 50%;
   padding: 3px;
+  width: 92px;
+  height: 92px;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-shrink: 0;
 }
+
 .avatar:not(:last-child) {
   margin-right: 20px;
 
