@@ -2,10 +2,10 @@
     <div class="stories">
         <Header class="header">
           <template #topline>
-              <router-link to="/">
+              <router-link :to="{name: 'home'}">
                 <img alt="Gitogram" src="GitogramWhite.png">
               </router-link>
-              <router-link to="/">
+              <router-link  :to="{name: 'home'}">
                 <Icon name="close" class="icon" />
               </router-link>
           </template>
