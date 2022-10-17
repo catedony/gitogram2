@@ -47,6 +47,10 @@ export default {
             transition: 'all ' + this.seconds + 's'
           }
         }, 0)
+      } else {
+        this.style = {
+          width: '0%'
+        }
       }
     }
   },
