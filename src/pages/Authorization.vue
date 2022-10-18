@@ -83,4 +83,11 @@ button {
 .logo {
   margin-bottom: 30px;
 }
+.footer {
+  padding: 30px;
+  text-align: center;
+  box-shadow: 0px -0.33px 0px rgba(60, 60, 67, 0.29);
+  font-size: 18px;
+  color: #6F6F6F;
+}
 </style>
