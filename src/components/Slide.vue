@@ -1,7 +1,7 @@
 <template>
   <div class="slide" :class="{active}">
     <div class="header">
-      <Progress :seconds="20" :active="active" @finish="$emit('progressFinish')"/>
+      <Progress :seconds="20" :active="activeProgress" @finish="$emit('progressFinish')"/>
       <AvatarWithTitle :src="data.userAvatar" :title="data.username" class="avatar" />
     </div>
     <div class="content">
@@ -55,6 +55,19 @@ export default {
       validator (value) {
         return value.every(item => item === 'next' || item === 'prev')
       }
+    }
+  },
+  data () {
+    return {
+      activeProgress: false
+    }
+  },
+  created () {
+    this.activeProgress = this.active
+  },
+  watch: {
+    active (newValue) {
+      this.activeProgress = newValue
     }
   }
 }
