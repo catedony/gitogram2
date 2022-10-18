@@ -1,6 +1,7 @@
 import NotFound from '@/components/NotFound.vue'
 import Feeds from '@/pages/feeds/Feeds.vue'
 const Stories = () => import('@/pages/Stories.vue')
+const Authorization = () => import('@/pages/Authorization.vue')
 export default [{
   path: '/',
   name: 'home',
@@ -17,6 +18,11 @@ export default [{
       component: Stories
     }
   ]
+},
+{
+  path: '/auth',
+  name: 'auth',
+  component: Authorization
 },
 {
   path: '/:pathMatch(.*)*',

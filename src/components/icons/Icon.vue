@@ -11,15 +11,16 @@ import Toggler from './variants/Toggler.vue'
 import Close from './variants/Close.vue'
 import ArrowLeft from './variants/ArrowLeft.vue'
 import ArrowRight from './variants/ArrowRight.vue'
+import Github from './variants/Github.vue'
 export default {
   name: 'Icon',
-  components: { Home, Logout, Star, Fork, Toggler, Close, ArrowLeft, ArrowRight },
+  components: { Home, Logout, Star, Fork, Toggler, Close, ArrowLeft, ArrowRight, Github },
   props: {
     name: {
       type: String,
       required: true,
       validator (value) {
-        return ['home', 'logout', 'star', 'fork', 'toggler', 'close', 'arrowLeft', 'arrowRight'].includes(value)
+        return ['home', 'logout', 'star', 'fork', 'toggler', 'close', 'arrowLeft', 'arrowRight', 'github'].includes(value)
       }
     }
   }
