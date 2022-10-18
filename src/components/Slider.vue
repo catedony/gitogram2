@@ -67,7 +67,6 @@ export default {
     },
     async fetchReadmeForActiveSlide () {
       const { id, author, name } = this.data[this.slideIndex]
-      console.log(id, name, author)
       await this.fetchReadme({ id, repo: name, owner: author })
     },
     async loadReadme () {
@@ -84,7 +83,6 @@ export default {
     },
     moveSlider (slideIndex) {
       const { slide, slider } = this.$refs
-      console.log(slide[slideIndex])
       const slideWidth = parseInt(getComputedStyle(slide[slideIndex]).getPropertyValue('width'), 10)
       const slideMargin = parseInt(getComputedStyle(slide[slideIndex]).getPropertyValue('margin-right'), 10)
 

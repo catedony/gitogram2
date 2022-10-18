@@ -40,7 +40,6 @@ export default {
   },
   watch: {
     active (newValue) {
-      console.log(newValue)
       if (newValue) {
         setTimeout(() => {
           this.style = {
