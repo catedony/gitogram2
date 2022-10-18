@@ -45,11 +45,14 @@ export default {
     }
   },
   async mounted () {
+    if (!this.data) {
+      await this.fetchRepositories()
+    }
     if (this.initialSlide) {
       const index = this.data.findIndex(item => item.id === this.initialSlide)
       this.handleSlide(index)
     }
-    await this.fetchRepositories()
+    // await this.fetchRepositories()
     await this.loadReadme()
   },
   methods: {

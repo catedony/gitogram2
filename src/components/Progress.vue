@@ -39,8 +39,9 @@ export default {
     this.$refs.filler.removeEventListener('transitionend', this.emitOnFinish)
   },
   watch: {
-    active () {
-      if (this.active) {
+    active (newValue) {
+      console.log(newValue)
+      if (newValue) {
         setTimeout(() => {
           this.style = {
             width: '100%',

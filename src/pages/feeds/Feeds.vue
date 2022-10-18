@@ -8,7 +8,7 @@
     </template>
     <template #content>
       <div class="avatars">
-        <router-link  class="avatar-link" :to="{name: 'stories', params: { initialSlide: item.id }}" v-for="item in data" :key="item.id">
+        <router-link  class="avatar-link" :to="{name: 'storiesInitialSlide', params: { initialSlide: item.id }}" v-for="item in data" :key="item.id">
           <Avatar class="avatar" :src="item.avatarUrl" />
         </router-link>
       </div>

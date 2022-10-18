@@ -7,9 +7,16 @@ export default [{
   component: Feeds
 },
 {
-  path: '/stories:initialSlide',
+  path: '/stories',
   name: 'stories',
-  component: Stories
+  component: Stories,
+  children: [
+    {
+      path: '/stories/:initialSlide',
+      name: 'storiesInitialSlide',
+      component: Stories
+    }
+  ]
 },
 {
   path: '/:pathMatch(.*)*',
