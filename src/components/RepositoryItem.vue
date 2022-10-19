@@ -9,21 +9,27 @@
     <template v-if="issuesVisible">Hide issues</template>
     <template v-else>View issues</template>
   </Toggler>
-  <ul v-show="issuesVisible" class="issues">
-    <li class="issue" v-for="issue in rep.issues" :key="issue.id">
-     <div class="issue__author">{{issue.author}}</div>
-     <div>{{issue.text}}</div>
-    </li>
-  </ul>
+  <template  v-if="loading">
+    <Loader class="loader" v-show="issuesVisible" />
+  </template>
+  <template v-else>
+    <ul v-show="issuesVisible" class="issues">
+      <li class="issue" v-for="issue in rep.issues" :key="issue.id">
+      <div class="issue__author">{{issue.author}}</div>
+      <div>{{issue.text}}</div>
+      </li>
+    </ul>
+  </template>
 </div>
 </template>
 
 <script>
 import Avatar from './Avatar.vue'
 import Toggler from './Toggler.vue'
+import Loader from './Loader.vue'
 export default {
   name: 'RepositoryList',
-  components: { Avatar, Toggler },
+  components: { Avatar, Toggler, Loader },
   props: {
     rep: {
       type: Object,
@@ -32,7 +38,8 @@ export default {
   },
   data () {
     return {
-      issuesVisible: false
+      issuesVisible: false,
+      loading: true
     }
   }
 }
@@ -70,5 +77,8 @@ export default {
   &:not(:last-child) {
     margin-bottom: 10px;
   }
+}
+.loader {
+  margin-top: 20px;
 }
 </style>
