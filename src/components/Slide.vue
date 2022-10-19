@@ -62,8 +62,10 @@ export default {
       activeProgress: false
     }
   },
-  created () {
-    this.activeProgress = this.active
+  mounted () {
+    setTimeout(() => {
+      this.activeProgress = this.active
+    }, 0)
   },
   watch: {
     active (newValue) {
