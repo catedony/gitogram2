@@ -12,7 +12,7 @@
       </template>
     </div>
     <div class="footer">
-      <ChangeOnHoverButton />
+      <BaseButton>Follow</BaseButton>
     </div>
     <template v-if="active">
       <button v-if="btnsShown.includes('prev')" @click="$emit('prevSlide')" class="btn btn-prev">
@@ -26,15 +26,15 @@
 </template>
 
 <script>
-import ChangeOnHoverButton from './ChangeOnHoverButton.vue'
 import AvatarWithTitle from './AvatarWithTitle.vue'
 import Progress from './Progress.vue'
 import Placeholder from './Placeholder.vue'
 import Spinner from './Spinner.vue'
 import Icon from './icons/Icon.vue'
+import BaseButton from './BaseButton.vue'
 export default {
   name: 'Slide',
-  components: { ChangeOnHoverButton, AvatarWithTitle, Progress, Placeholder, Spinner, Icon },
+  components: { AvatarWithTitle, Progress, Placeholder, Spinner, Icon, BaseButton },
   emits: ['progressFinish', 'nextSlide', 'prevSlide'],
   props: {
     data: {

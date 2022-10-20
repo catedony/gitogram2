@@ -7,7 +7,7 @@
               <p class="text">
                 More than just one repository. <br/> This is our digital world.
               </p>
-              <button>Authorize with github<span><Icon name="github" class="icon"/></span></button>
+              <BaseButton @click="getCode">Authorize with github<span><Icon name="github" class="icon"/></span></BaseButton>
           </div>
           </div>
           <div class="col-2"></div>
@@ -21,6 +21,7 @@
 <script>
 import Logo from '@/components/Logo.vue'
 import Icon from '@/components/icons/Icon.vue'
+import BaseButton from '@/components/BaseButton.vue'
 export default {
   name: 'Authorization',
   components: { Logo, Icon }
@@ -69,16 +70,8 @@ export default {
   margin-left: 5px;
 }
 button {
-  background: #31AE54;
-  border-radius: 5px;
-  color: white;
-  font-weight: bold;
   font-size: 16px;
-  border: none;
-  display: flex;
-  align-items: center;
   padding: 12px 24px;
-  cursor: pointer;
 }
 .logo {
   margin-bottom: 30px;
