@@ -21,10 +21,32 @@
 <script>
 import Logo from '@/components/Logo.vue'
 import Icon from '@/components/icons/Icon.vue'
+import { getToken } from '@/api/rest/auth'
 import BaseButton from '@/components/BaseButton.vue'
+import env from './../env'
+
 export default {
   name: 'Authorization',
-  components: { Logo, Icon }
+  components: { Logo, Icon, BaseButton },
+  async created () {
+    const code = new URLSearchParams(window.location.search).get('code')
+    try {
+      const { data } = await getToken({ clientId: env.clientId, code, clientSecret: env.clientSecret })
+      localStorage.setItem('token', data.token)
+      this.$router.replace({ name: 'home' })
+    } catch (e) {
+      console.error(e)
+    }
+  },
+  methods: {
+    getCode () {
+      const githubAuthApi = 'https://github.com/login/oauth/authorize'
+      const params = new URLSearchParams()
+      params.append('client_id', env.clientId)
+      params.append('scope', 'repo:status read:user')
+      window.location.href = `${githubAuthApi}?${params}`
+    }
+  }
 }
 </script>
 

@@ -1,7 +1,7 @@
 <template>
   <ul>
     <li class="icon"><Icon name="home" /></li>
-    <li class="avatar"><Avatar class="avatar" /></li>
+    <li class="avatar"><Avatar class="avatar" :src="user?.avatar_url" /></li>
     <li class="icon"><Icon name="logout" /></li>
   </ul>
 </template>
@@ -9,9 +9,16 @@
 <script>
 import Avatar from './Avatar.vue'
 import Icon from '@/components/icons/Icon.vue'
+import { mapState } from 'vuex'
+
 export default {
   name: 'Topline',
-  components: { Avatar, Icon }
+  components: { Avatar, Icon },
+  computed: {
+    ...mapState({
+      user: state => state.auth.data
+    })
+  }
 }
 </script>
 

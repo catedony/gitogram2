@@ -25,28 +25,35 @@ import Logo from '@/components/Logo.vue'
 import Topline from '@/components/Topline.vue'
 import Avatar from '@/components/Avatar.vue'
 import RepositoryList from '@/components/RepositoryList.vue'
-import { createNamespacedHelpers } from 'vuex'
-import repositories from '@/store/modules/repositories'
-const { mapState, mapActions } = createNamespacedHelpers('repositories')
+import { mapState, mapActions } from 'vuex'
+// import repositories from '@/store/modules/repositories'
+
 export default {
   name: 'Feeds',
   components: { Header, Logo, Avatar, Topline, RepositoryList },
   computed: {
-    ...mapState(['data', 'isLoading', 'error']),
+    ...mapState({
+      data: state => state.repositories.data,
+      isLoading: state => state.repositories.isLoading,
+      error: state => state.repositories.error
+    }),
     reps () {
       return this.data
     }
   },
   beforeCreate () {
-    this.$store.registerModule('repositories', repositories)
+    // this.$store.registerModule('repositories', repositories)
   },
   async created () {
+    await this.fetchUserData()
     await this.fetchRepositories()
     // this.$store.unregisterModule('repositories')
-    console.log(this.data)
   },
   methods: {
-    ...mapActions(['fetchRepositories'])
+    ...mapActions({
+      fetchRepositories: 'repositories/fetchRepositories',
+      fetchUserData: 'auth/fetchUserData'
+    })
   }
 }
 </script>
