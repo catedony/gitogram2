@@ -2,14 +2,14 @@
   <ul>
     <li class="icon"><Icon name="home" /></li>
     <li class="avatar"><Avatar class="avatar" :src="user?.avatar_url" /></li>
-    <li class="icon"><Icon name="logout" /></li>
+    <li class="icon"><Icon name="logout" @click="logout"/></li>
   </ul>
 </template>
 
 <script>
 import Avatar from './Avatar.vue'
 import Icon from '@/components/icons/Icon.vue'
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'Topline',
@@ -18,6 +18,9 @@ export default {
     ...mapState({
       user: state => state.auth.data
     })
+  },
+  methods: {
+    ...mapActions({ logout: 'auth/logout' })
   }
 }
 </script>

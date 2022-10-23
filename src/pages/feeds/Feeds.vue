@@ -41,13 +41,11 @@ export default {
       return this.data
     }
   },
-  beforeCreate () {
-    // this.$store.registerModule('repositories', repositories)
-  },
   async created () {
     await this.fetchUserData()
-    await this.fetchRepositories()
-    // this.$store.unregisterModule('repositories')
+    if (!this.data) {
+      await this.fetchRepositories()
+    }
   },
   methods: {
     ...mapActions({

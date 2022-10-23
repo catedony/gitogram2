@@ -1,5 +1,5 @@
 <template>
-    <button :class="{loading, disabled}">
+    <button @click="$emit('click')" :class="{loading, disabled}">
       <template v-if="loading">
         <div class="spinner">
           <Spinner sm/>
@@ -15,6 +15,7 @@
 import Spinner from './Spinner.vue'
 export default {
   name: 'BaseButton',
+  emits: ['click'],
   props: {
     loading: {
       type: Boolean,

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { makeRequest } from '@/api/baseApi.js'
+import { makeRequestAuthorized } from '@/api/baseApi.js'
 
 export const getToken = async ({ clientId, code, clientSecret }) => {
   return await axios.post('https://webdev-api.loftschool.com/github',
@@ -12,7 +12,7 @@ export const getToken = async ({ clientId, code, clientSecret }) => {
 }
 
 export const getUserData = () => {
-  return makeRequest({
+  return makeRequestAuthorized({
     url: '/user',
     headers: {
       Authorization: `token ${localStorage.getItem('token')}`

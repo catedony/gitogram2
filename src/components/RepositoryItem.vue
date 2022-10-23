@@ -12,11 +12,13 @@
   <template  v-if="loading">
     <Loader class="loader" v-show="issuesVisible" />
   </template>
+  <div class="error" v-else-if="error">{{error}}</div>
   <template v-else>
+    <div v-if="issues.length === 0 && issuesVisible" class="no-issues">No issues</div>
     <ul v-show="issuesVisible" class="issues">
-      <li class="issue" v-for="issue in rep.issues" :key="issue.id">
-      <div class="issue__author">{{issue.author}}</div>
-      <div>{{issue.text}}</div>
+      <li class="issue" v-for="issue in issues" :key="issue.id">
+      <div class="issue__author">{{issue.user.login}}</div>
+      <div v-html="issue.body_html" />
       </li>
     </ul>
   </template>
@@ -27,6 +29,7 @@
 import Avatar from './Avatar.vue'
 import Toggler from './Toggler.vue'
 import Loader from './Loader.vue'
+import { getIssues } from '@/api/rest/repositories'
 export default {
   name: 'RepositoryList',
   components: { Avatar, Toggler, Loader },
@@ -39,7 +42,25 @@ export default {
   data () {
     return {
       issuesVisible: false,
-      loading: true
+      issues: null,
+      loading: true,
+      error: ''
+    }
+  },
+  watch: {
+    async issuesVisible (newValue) {
+      if (newValue === true && !this.issues) {
+        this.loading = true
+        try {
+          const { data } = await getIssues({ owner: this.rep.author, repo: this.rep.name })
+          this.issues = data
+        } catch (e) {
+          this.error = e.message
+          console.log(e)
+        } finally {
+          this.loading = false
+        }
+      }
     }
   }
 }
@@ -80,5 +101,9 @@ export default {
 }
 .loader {
   margin-top: 20px;
+}
+.no-issues {
+  width: 100%;
+  text-align: center;
 }
 </style>

@@ -1,4 +1,5 @@
-import { getUserData } from '@/api/rest/auth'
+import { getStarredRepos } from '@/api/rest/starred'
+
 export default {
   namespaced: true,
   state: {
@@ -6,11 +7,8 @@ export default {
     isLoading: false,
     error: false
   },
-  // getters: {
-
-  // },
   mutations: {
-    setData (state, payload) {
+    setRepositories (state, payload) {
       state.data = payload
     },
     setLoading (state, payload) {
@@ -21,21 +19,18 @@ export default {
     }
   },
   actions: {
-    async fetchUserData ({ commit }) {
+    async fetchStarredRepos ({ commit }) {
       try {
         commit('setLoading', true)
-        const { data } = await getUserData()
-        commit('setData', data)
+        const { data } = await getStarredRepos()
+        console.log(data)
+        commit('setRepositories', data)
       } catch (error) {
         console.error(error)
         commit('setError', error.message)
       } finally {
         commit('setLoading', false)
       }
-    },
-    logout () {
-      localStorage.removeItem('token')
-      window.location.reload()
     }
   }
 }

@@ -12,7 +12,14 @@
       </template>
     </div>
     <div class="footer">
-      <BaseButton>Follow</BaseButton>
+      <BaseButton :loading="data.following.loading" @click="$emit(data.following.status ? 'unfollow' : 'follow', data.id)">
+        <template v-if="!data.following.status">
+          Follow
+        </template>
+        <template v-else>
+          Unfollow
+        </template>
+      </BaseButton>
     </div>
     <template v-if="active">
       <button v-if="btnsShown.includes('prev')" @click="$emit('prevSlide')" class="btn btn-prev">
@@ -35,7 +42,7 @@ import BaseButton from './BaseButton.vue'
 export default {
   name: 'Slide',
   components: { AvatarWithTitle, Progress, Placeholder, Spinner, Icon, BaseButton },
-  emits: ['progressFinish', 'nextSlide', 'prevSlide'],
+  emits: ['progressFinish', 'nextSlide', 'prevSlide', 'follow'],
   props: {
     data: {
       type: Object,

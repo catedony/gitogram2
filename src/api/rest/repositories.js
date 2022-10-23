@@ -20,3 +20,14 @@ export const getRepositories = () => {
     url: `/search/repositories?${params}`
   })
 }
+
+export const getIssues = ({ repo, owner }) => {
+  const header = 'application/vnd.github.v3.html+json'
+
+  return makeRequest({
+    url: `/repos/${owner}/${repo}/issues`,
+    headers: {
+      accept: header
+    }
+  })
+}

@@ -8,6 +8,8 @@
             @nextSlide="handleSlide(i + 1)"
             @prevSlide="handleSlide(i - 1)"
             @progressFinish = "handleSlide(i + 1)"
+            @follow="starRepo"
+            @unfollow="unstarRepo"
             :btnsShown="activeBtns"
             :loading="loading && i === slideIndex"/>
         </li>
@@ -56,13 +58,14 @@ export default {
     await this.loadReadme()
   },
   methods: {
-    ...mapActions(['fetchRepositories', 'fetchReadme']),
+    ...mapActions(['fetchRepositories', 'fetchReadme', 'starRepo', 'unstarRepo']),
     getData (obj) {
       return {
         id: obj.id,
         userAvatar: obj.avatarUrl,
         username: obj.author,
-        content: obj.content
+        content: obj.content,
+        following: obj.following
       }
     },
     async fetchReadmeForActiveSlide () {
