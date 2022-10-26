@@ -1,31 +1,6 @@
 <template>
-    <Header class="header">
-      <template #topline>
-        <div class="top">
-          <Logo />
-          <Topline/>
-        </div>
-      </template>
-    </Header>
-    <div class="main">
-        <div class="col-1">
-          <h2 class="title">My Profile</h2>
-          <div class="user">
-            <div>
-              <Avatar class="user-avatar" :src="user?.avatar_url" />
-            </div>
-            <div>
-              <div class="user-login">{{user?.login}}</div>
-              <!-- <div>
-                <div class="reposts"><span class="number"></span> reposts</div>
-                <div class="watchers"><span class="number"></span> watches</div>
-              </div> -->
-              <div class="name">{{user?.name}}</div>
-            </div>
-          </div>
-        </div>
-        <div class="col-2">
-          <h2 class="title repo-title">Following <span>{{repos?.length}}</span></h2>
+    <Profile>
+      <h2 class="title repo-title">Following <span>{{repos?.length}}</span></h2>
           <div v-if="isLoading">Loading</div>
           <div v-else-if="error">{{error}}</div>
           <ul v-else>
@@ -45,87 +20,46 @@
 
             </li>
           </ul>
-        </div>
-    </div>
+    </Profile>
 </template>
 
 <script>
-import Header from '@/components/Header.vue'
-import Logo from '@/components/Logo.vue'
-import Topline from '@/components/Topline.vue'
 import Avatar from '@/components/Avatar.vue'
-import { mapState, mapActions } from 'vuex'
+import { useStore } from 'vuex'
 import ChangeOnHoverButton from '@/components/ChangeOnHoverButton.vue'
 import { unstarRepo } from '@/api/rest/starred'
+import { computed } from 'vue'
+import Profile from '../components/Profile.vue'
 
 export default {
-  name: 'Starred',
-  components: { Header, Logo, Topline, Avatar, ChangeOnHoverButton },
-  computed: {
-    ...mapState({
-      repos: state => state.starred.data,
-      isLoading: state => state.starred.isLoading,
-      error: state => state.starred.error,
-      user: state => state.auth.data
-    }),
-    reps () {
-      return this.data
+  name: 'Following',
+  components: { Avatar, ChangeOnHoverButton, Profile },
+  setup () {
+    const store = useStore()
+
+    const fetchRepositories = () => {
+      store.dispatch('starred/fetchStarredRepos')
     }
-  },
-  async created () {
-    await this.fetchUserData()
-    await this.fetchRepositories()
-  },
-  methods: {
-    ...mapActions({
-      fetchRepositories: 'starred/fetchStarredRepos',
-      fetchUserData: 'auth/fetchUserData'
-    }),
-    async unfollow (repo) {
+    fetchRepositories()
+    const repos = computed(() => store.state.starred.data)
+    const isLoading = computed(() => store.state.starred.isLoading)
+    const error = computed(() => store.state.starred.error)
+
+    const unfollow = async (repo) => {
       await unstarRepo({ owner: repo.owner.login, repo: repo.name })
-      await this.fetchRepositories()
+      fetchRepositories()
+    }
+    return {
+      repos,
+      isLoading,
+      error,
+      unfollow
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.top {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-}
-.header {
-  box-sizing: border-box;
-  padding: 20px 30px;
-  @media (min-width: 1270px) {
-    padding: 50px 120px;
-  }
-}
-.main {
-  display: flex;
-  height: 100%;
-  border-top: 1px solid #D3D3D3;
-  box-sizing: border-box;
-  padding-left: 20px;
-  padding-right: 20px;
-  @media (min-width: 1270px) {
-    max-width: 980px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  padding-bottom: 30px;
-}
-.col-1 {
-  flex: 1;
-  height: 100%;
-  border-right: 1px solid #D3D3D3;
-}
-.col-2 {
-  flex: 2;
-  height: 100%;
-  padding: 0 70px;
-}
 .user-avatar {
   width: 90px;
   height: 90px;
@@ -135,22 +69,6 @@ export default {
   width: 72px;
   height: 72px;
   margin-right: 20px;
-}
-.user {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.user-login {
-  font-weight: 700;
-  font-size: 24px;
-  color: #262626;
-}
-.name {
-  color: #9E9E9E;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 17px;
 }
 .title {
   margin-bottom: 30px;

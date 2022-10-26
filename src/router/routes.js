@@ -3,6 +3,7 @@ import Feeds from '@/pages/feeds/Feeds.vue'
 const Stories = () => import('@/pages/Stories.vue')
 const Authorization = () => import('@/pages/Authorization.vue')
 const Following = () => import('@/pages/Following.vue')
+const UserProfile = () => import('@/pages/UserProfile.vue')
 export default [{
   path: '/',
   name: 'home',
@@ -29,6 +30,11 @@ export default [{
   path: '/following',
   name: 'following',
   component: Following
+},
+{
+  path: '/profile',
+  name: 'profile',
+  component: UserProfile
 },
 {
   path: '/:pathMatch(.*)*',
