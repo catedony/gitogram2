@@ -16,7 +16,7 @@
   </Header>
     <div v-if="isLoading">Загрузка...</div>
     <div v-else-if="error">{{ error }}</div>
-  <RepositoryList v-if="data" :reps="reps" class="list" />
+  <RepositoryList v-if="data" :reps="getUnstarredOnly" class="list" />
 </template>
 
 <script>
@@ -25,7 +25,7 @@ import Logo from '@/components/Logo.vue'
 import Topline from '@/components/Topline.vue'
 import Avatar from '@/components/Avatar.vue'
 import RepositoryList from '@/components/RepositoryList.vue'
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 // import repositories from '@/store/modules/repositories'
 
 export default {
@@ -37,12 +37,14 @@ export default {
       isLoading: state => state.repositories.isLoading,
       error: state => state.repositories.error
     }),
+    ...mapGetters(['getUnstarredOnly']),
     reps () {
       return this.data
     }
   },
   async created () {
     await this.fetchUserData()
+    await this.fetchStarredRepos()
     if (!this.data) {
       await this.fetchRepositories()
     }
@@ -50,7 +52,8 @@ export default {
   methods: {
     ...mapActions({
       fetchRepositories: 'repositories/fetchRepositories',
-      fetchUserData: 'auth/fetchUserData'
+      fetchUserData: 'auth/fetchUserData',
+      fetchStarredRepos: 'starred/fetchStarredRepos'
     })
   }
 }
